@@ -40,18 +40,17 @@ class LegSettings(models.Model):
         ('ReExecuteLeg', 'ReExecuteLeg'),
         ('ReEnterLeg', 'ReEnterLeg'),
         ('KeepLegRunning', 'KeepLegRunning'),
-        #('Execute_Legs', 'Execute_Legs'),
-        ('partial', 'partial'),
+        ('partial(Execute_Legs, execute_legs=["leg4","leg5"])', 'partial(Execute_Legs, execute_legs=["leg4","leg5"])'),
+        
+
     )
     ON_SL_CHOICES = (
         ('ReExecuteLeg', 'ReExecuteLeg'),
         ('ReEnterLeg', 'ReEnterLeg'),
         ('KeepLegRunning', 'KeepLegRunning'),
-        ('partial', 'partial'),
-        
-        # ('ReExecute_At_Opposite_Leg_Ltp', 'ReExecute_At_Opposite_Leg_Ltp'),
-        # ('SqOff_Legs', 'SqOff_Legs'),
-        # ('Execute_Legs', 'Execute_Legs'),
+        ('partial(ReExecute_At_Opposite_Leg_Ltp, oppo_leg="leg2")', 'partial(ReExecute_At_Opposite_Leg_Ltp, oppo_leg="leg2")'),
+        ('partial(SqOff_Legs, sqoff_legs=["leg3","leg4"])', 'partial(SqOff_Legs, sqoff_legs=["leg3","leg4"])'),
+        ('partial(Execute_Legs, execute_legs=["leg4"])', 'partial(Execute_Legs, execute_legs=["leg4"])'),
     )
 
     portfolio = models.ForeignKey(Portfolio, related_name='leg_settings', on_delete=models.CASCADE)
@@ -73,8 +72,8 @@ class LegSettings(models.Model):
     SL_TrailTrigger = models.TextField(null=True, blank=True)
     SL_Trail_Amt = models.TextField(null=True, blank=True)
     on_target = models.CharField(max_length=20, choices=ON_TARGET)
-    on_tp = models.CharField(max_length=50, choices=ON_TP_CHOICES, null=True, blank=True)
-    on_sl = models.CharField(max_length=50, choices=ON_SL_CHOICES, null=True, blank=True)
+    on_tp = models.CharField(max_length=150, choices=ON_TP_CHOICES, null=True, blank=True)
+    on_sl = models.CharField(max_length=150, choices=ON_SL_CHOICES, null=True, blank=True)
 
 class LegExecutionDetails(models.Model):
     sqoff = models.TimeField()
