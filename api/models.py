@@ -1,5 +1,3 @@
-# myapp/models.py
-
 from django.db import models
 from functools import partial
 
@@ -40,7 +38,7 @@ class LegSettings(models.Model):
         ('ReExecuteLeg', 'ReExecuteLeg'),
         ('ReEnterLeg', 'ReEnterLeg'),
         ('KeepLegRunning', 'KeepLegRunning'),
-        ('partial(Execute_Legs, execute_legs=["leg4","leg5"])', 'partial(Execute_Legs, execute_legs=["leg4","leg5"])'),
+        ('partial_execute_legs', 'partial_execute_legs'),
         
 
     )
@@ -48,9 +46,11 @@ class LegSettings(models.Model):
         ('ReExecuteLeg', 'ReExecuteLeg'),
         ('ReEnterLeg', 'ReEnterLeg'),
         ('KeepLegRunning', 'KeepLegRunning'),
-        ('partial(ReExecute_At_Opposite_Leg_Ltp, oppo_leg="leg2")', 'partial(ReExecute_At_Opposite_Leg_Ltp, oppo_leg="leg2")'),
-        ('partial(SqOff_Legs, sqoff_legs=["leg3","leg4"])', 'partial(SqOff_Legs, sqoff_legs=["leg3","leg4"])'),
-        ('partial(Execute_Legs, execute_legs=["leg4"])', 'partial(Execute_Legs, execute_legs=["leg4"])'),
+        ('partial_reexecute_opposite_leg', 'partial_reexecute_opposite_leg'),
+        ('partial_sqoff_legs', 'partial_sqoff_legs'),
+        ('partial_execute_legs', 'partial_execute_legs'),
+        
+        
     )
 
     portfolio = models.ForeignKey(Portfolio, related_name='leg_settings', on_delete=models.CASCADE)
@@ -80,3 +80,13 @@ class LegExecutionDetails(models.Model):
     execute = models.TimeField()
     rexecute = models.TimeField()
     rentry = models.TimeField()
+
+
+class RequestData(models.Model):
+    endpoint = models.CharField(max_length=255)
+    data = models.JSONField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.endpoint} at {self.timestamp}"
+
